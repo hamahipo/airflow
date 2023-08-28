@@ -5,8 +5,8 @@ from airflow.operators.bash import BashOperator
 
 with DAG(
     dag_id="dags_bash_with_template",
-    schedule="10 0 * * 6#1",
-    start_date=pendulum.datetime(2023, 8, 1, tz="Asia/Seoul"),
+    schedule="10 0 * * *",
+    start_date=pendulum.datetime(2023, 8, 26, tz="Asia/Seoul"),
     catchup=True
 ) as dag:
 
@@ -19,7 +19,7 @@ with DAG(
         task_id="t2",
         env={
             'START_DATE':'{{ ds }}',
-            'END_DATE':'{{data_interval_end | ds }}'
+            'END_DATE':'{{ data_interval_end | ds }}'
             },
         bash_command='echo $START_DATE && echo $END_DATE'
     )
