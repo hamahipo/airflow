@@ -1,6 +1,6 @@
 from airflow import DAG
 import pendulum
-from airflow.decorators import task
+from airflow.operators.python import PythonOperator
 from common.common_func import regist
 
 with DAG(
@@ -10,8 +10,8 @@ with DAG(
     catchup=False
 ) as dag:
 
-    @task(task_id="python_task_1")
-    def print_context(some_input):
-        print(some_input)
-    
-    python_task_1 = regist('yljo','female','kr','seoul')
+    py_t1 = PythonOperator(
+        task_id='py_t1',
+        python_callable=regist,
+        op_args=['yljo','female','kr','seoul']
+    )
